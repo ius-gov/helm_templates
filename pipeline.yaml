@@ -1,0 +1,22 @@
+trigger:
+  - master
+pr:
+  - master
+
+variables:
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: ius-gov/pipeline-templates
+      endpoint: ius-dev
+
+jobs:
+  - template: helm-chart-pipeline.yaml@templates
+    parameters:
+      containerServiceEndpoint: '$(connectionServiceEndpoint)'
+      registry: '$(registry)'
+      project: '$(project)'
+      helmChartLocation: 'common'
+      helmChartName: 'common'
