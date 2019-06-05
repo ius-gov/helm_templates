@@ -1,0 +1,89 @@
+{{- define "common.deployment" -}} #declare this as a template
+# this voodoo merges the various value files
+{{- $common := dict "Values" .Values.common -}}  
+{{- $noCommon := omit .Values "common" -}} 
+{{- $overrides := dict "Values" $noCommon -}} 
+{{- $noValues := omit . "Values" -}} 
+{{- with merge $noValues $overrides $common -}}
+# end voodoo
+apiVersion: apps/v1
+kind: Deployment
+{{ template "common.metadata" . }} 
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "common.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "common.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.ImagePullSecret}}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: appsettings
+              mountPath: /app/appsettings
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 120
+            timeoutSeconds: 60
+            periodSeconds: 90
+            failureThreshold: 6
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            timeoutSeconds: 60
+            periodSeconds: 30
+            failureThreshold: 5
+            successThreshold: 1
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+          - name: ReleaseTime
+            value: "{{ .Release.Time.Seconds }}"
+          - name: ClientStateName
+            value: {{ .Values.clientStateName }}
+          - name: ASPNETCORE_ENVIRONMENT
+            value: {{ .Values.Environment }}
+          - name: APPSETTING_LOCATION
+            value: {{ .Values.AppSettingsLocation }}
+          - name: Serilog__WriteTo__0__Args__apiKey
+            value: {{ .Values.LoggingKey }}
+          - name: DoNotRequireHttps
+            value: "true"
+      volumes:
+        - name: appsettings
+          configMap:
+            name: {{ .Values.AppSettingsConfigMap }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+
+{{- end -}}
+{{- end -}}
