@@ -3,8 +3,6 @@ trigger:
 pr:
   - master
 
-variables:
-
 resources:
   repositories:
     - repository: templates
