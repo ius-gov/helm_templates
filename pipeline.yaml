@@ -13,6 +13,7 @@ resources:
 jobs:
   - template: helm-chart-pipeline.yaml@templates
     parameters:
+      containerServiceEndpoint: '$(connectionServiceEndpoint)'
       registry: '$(registry)'
       project: '$(project)'
       helmChartLocation: 'common'
