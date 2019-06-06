@@ -14,5 +14,5 @@ jobs:
   - template: helm-chart-pipeline.yaml@templates
     parameters:
       project: '$(project)'
-      helmChartLocation: ''
+      helmChartLocation: '.'
       helmChartName: 'common'
