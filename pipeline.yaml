@@ -9,6 +9,7 @@ resources:
       type: github
       name: ius-gov/pipeline-templates
       endpoint: ius-dev
+      ref: 'refs/heads/gd_support_common_chart'
 
 jobs:
   - template: helm-chart-pipeline.yaml@templates
