@@ -34,7 +34,6 @@ tolerations: []
 affinity: {}
 
 global:
-  servicePrefix: ""
   ingress:
     host: localhost
     annotations:

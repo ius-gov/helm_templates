@@ -19,11 +19,7 @@ spec:
       paths:
         - path: /
           backend:
-            {{if .Values.global.servicePrefix }}
-            serviceName: {{ printf "%s-%s" .Values.global.servicePrefix .Chart.Name }}
-            {{ else }}
-            serviceName: {{ .Chart.Name }}
-            {{ end }}
+            serviceName: {{ printf "%s-%s" .Release.Name .Chart.Name }}
             servicePort: 80
 {{- end }}
 {{- end -}}
