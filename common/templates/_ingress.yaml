@@ -13,6 +13,12 @@ kind: Ingress
 {{ toYaml . | indent 4 }}
 {{- end }}
 spec:
+{{- if .Values.ingress.enabletls }}
+  tls:
+  - hosts:
+    - {{- printf " %s.%s"  .Chart.Name  .Values.global.ingress.host }}
+    secretName: {{ .Values.global.ingress.tlssecret}}
+{{- end }}
   rules:
   - host: {{- printf " %s.%s"  .Chart.Name  .Values.global.ingress.host }}
     http:
@@ -22,4 +28,4 @@ spec:
             serviceName: {{ printf "%s-%s" .Release.Name .Chart.Name }}
             servicePort: 80
 {{- end }}
-{{- end -}}
+{{- end }}
