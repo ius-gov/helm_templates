@@ -22,7 +22,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       imagePullSecrets:
-        - name: {{ .Values.global.ImagePullSecret }}
+        - name: {{ .Values.ImagePullSecret }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

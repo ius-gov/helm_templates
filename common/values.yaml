@@ -6,6 +6,7 @@
 image:
   tag: 0.0.0-INTERNAL
   pullPolicy: Always
+  ImagePullSecret: iusdev
 
 LoggingKey: ""
 
@@ -30,7 +31,6 @@ global:
   clientStateName : Consortium
   Environment : Development
   replicaCount: 1
-  ImagePullSecret: iusdev
   ingress:
     tlssecret: tls-secret
     host: "***global.ingress.host needs a value***"
