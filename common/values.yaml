@@ -9,7 +9,7 @@ image:
 
 LoggingKey: ""
 
-AppSettingsLocation: /app/appsettings
+AppSettingsLocation: 
 
 nameOverride: ""
 fullnameOverride: ""
@@ -33,7 +33,7 @@ global:
   ImagePullSecret: iusdev
   ingress:
     tlssecret: tls-secret
-    host: localhost
+    host: "***global.ingress.host needs a value***"
     annotations:
       nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
       nginx.ingress.kubernetes.io/proxy-buffering: "on"
