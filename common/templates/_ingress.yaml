@@ -20,7 +20,7 @@ spec:
     secretName: {{ .Values.global.ingress.tlssecret}}
 {{- end }}
   rules:
-  - host: {{- printf " %s.%s"  .Chart.Name  .Values.global.ingress.host }}
+  - host: {{- printf " %s.%s.%s"  .Chart.Name .Release.Name .Values.global.ingress.host }}
     http:
       paths:
         - path: /

@@ -10,7 +10,7 @@ apiVersion: apps/v1
 kind: Deployment
 {{ template "common.metadata" . }} 
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.replicaCount | default .Values.global.replicaCount }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "common.name" . }}
@@ -22,7 +22,7 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       imagePullSecrets:
-        - name: {{ .Values.ImagePullSecret}}
+        - name: {{ .Values.ImagePullSecret }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -58,19 +58,21 @@ spec:
           - name: ReleaseTime
             value: "{{ .Release.Time.Seconds }}"
           - name: ClientStateName
-            value: {{ .Values.clientStateName }}
+            value: {{ .Values.global.clientStateName  }}
           - name: ASPNETCORE_ENVIRONMENT
-            value: {{ .Values.Environment }}
+            value: {{ .Values.global.Environment }}
           - name: APPSETTING_LOCATION
-            value: {{ .Values.AppSettingsLocation }}
+            value: "/app/appsettings"
+            {{- if .Values.LoggingKey -}}
           - name: Serilog__WriteTo__0__Args__apiKey
             value: {{ .Values.LoggingKey }}
+            {{- end -}}
           - name: DoNotRequireHttps
             value: "true"
       volumes:
         - name: appsettings
           configMap:
-            name: {{ .Values.AppSettingsConfigMap }}
+            name: {{ printf "appsettings-%s-%s-%s-cm" .Release.Name .Values.global.clientStateName .Values.global.Environemnt }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

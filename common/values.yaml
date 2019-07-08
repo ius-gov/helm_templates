@@ -2,20 +2,15 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
 
 image:
   tag: 0.0.0-INTERNAL
   pullPolicy: Always
+  ImagePullSecret: iusdev
 
-clientStateName : Consortium
-Environment : Development
 LoggingKey: ""
-AppSettingsLocation: /app/appsettings
-AppSettingsConfigMap: appsettings-cm
-ImagePullSecret: iusdev
 
-
+AppSettingsLocation: 
 
 nameOverride: ""
 fullnameOverride: ""
@@ -24,22 +19,21 @@ service:
   type: ClusterIP
   port: 80
 
-
 resources: {}
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
 
 ingress:
   enabletls: true
 
 global:
+  clientStateName : Consortium
+  Environment : Development
+  replicaCount: 1
   ingress:
     tlssecret: tls-secret
-    host: localhost
+    host: "***global.ingress.host needs a value***"
     annotations:
       nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
       nginx.ingress.kubernetes.io/proxy-buffering: "on"
