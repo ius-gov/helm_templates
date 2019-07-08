@@ -72,7 +72,7 @@ spec:
       volumes:
         - name: appsettings
           configMap:
-            name: {{ printf "appsettings%s-%s-%s-%s-cm" .Release.Name .Values.global.clientStateName .Values.global.Environemnt }}
+            name: {{ printf "appsettings%s-%s-%s-cm" .Release.Name .Values.global.clientStateName .Values.global.Environemnt }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
