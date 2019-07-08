@@ -12,7 +12,7 @@ resources:
 
 variables:
   project: "ius.tax.umbrella"
-
+jobs:
   - template: helm/standalone-helm-chart-pipeline.yaml@templates
     parameters:
       project: 'common-template'
