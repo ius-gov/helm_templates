@@ -10,12 +10,11 @@ resources:
       name: ius-gov/pipeline-templates
       endpoint: ius-dev
 
-variables:
-  project: "ius.tax.umbrella"
+
 jobs:
   - template: helm/standalone-helm-chart-pipeline.yaml@templates
     parameters:
       project: 'common-template'
       helmChartLocation: '.'
-      helmChartName: 'tax-umbrella'
+      helmChartName: 'common'
       stateCode: 0
