@@ -1,0 +1,20 @@
+replicaCount: 1
+
+image:
+  repository: iusdev.azurecr.io/ius.employerwages.service
+  tag: 0.2.9.2502
+
+clientStateName : Consortium
+
+nameOverride: ""
+fullnameOverride: ""
+
+LoggingKey: "sssss"
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

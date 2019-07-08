@@ -58,15 +58,14 @@ spec:
           - name: ReleaseTime
             value: "{{ .Release.Time.Seconds }}"
           - name: ClientStateName
-            value: {{ .Values.global.clientStateName  }}
+            value: {{ .Values.global.clientStateName | quote }}
           - name: ASPNETCORE_ENVIRONMENT
-            value: {{ .Values.global.Environment }}
+            value: {{ .Values.global.Environment | quote }}
           - name: APPSETTING_LOCATION
             value: "/app/appsettings"
-            {{- if .Values.LoggingKey -}}
+          {{- if .Values.LoggingKey }}
           - name: Serilog__WriteTo__0__Args__apiKey
-            value: {{ .Values.LoggingKey }}
-            {{- end -}}
+            value: {{ .Values.LoggingKey | quote }}{{ end }}
           - name: DoNotRequireHttps
             value: "true"
       volumes:
