@@ -6,7 +6,8 @@
 image:
   tag: 0.0.0-INTERNAL
   pullPolicy: Always
-  ImagePullSecret: iusdev
+
+ImagePullSecret: iusdev
 
 LoggingKey: ""
 
