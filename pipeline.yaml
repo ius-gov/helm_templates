@@ -9,11 +9,13 @@ resources:
       type: github
       name: ius-gov/pipeline-templates
       endpoint: ius-dev
-      ref: 'refs/heads/gd_support_common_chart'
 
-jobs:
-  - template: helm-chart-pipeline.yaml@templates
+variables:
+  project: "ius.tax.umbrella"
+
+  - template: helm/standalone-helm-chart-pipeline.yaml@templates
     parameters:
-      project: '$(project)'
+      project: 'common-template'
       helmChartLocation: '.'
-      helmChartName: 'common'
+      helmChartName: 'tax-umbrella'
+      stateCode: 0
