@@ -2,20 +2,14 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
 
 image:
   tag: 0.0.0-INTERNAL
   pullPolicy: Always
 
-clientStateName : Consortium
-Environment : Development
 LoggingKey: ""
+
 AppSettingsLocation: /app/appsettings
-AppSettingsConfigMap: appsettings-cm
-ImagePullSecret: iusdev
-
-
 
 nameOverride: ""
 fullnameOverride: ""
@@ -24,19 +18,19 @@ service:
   type: ClusterIP
   port: 80
 
-
 resources: {}
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
 
 ingress:
   enabletls: true
 
 global:
+  clientStateName : Consortium
+  Environment : Development
+  replicaCount: 1
+  ImagePullSecret: iusdev
   ingress:
     tlssecret: tls-secret
     host: localhost
