@@ -5,7 +5,7 @@
 {{- $overrides := dict "Values" $noCommon -}} 
 {{- $noValues := omit . "Values" -}} 
 {{- with merge $noValues $overrides $common -}}
-{{- $host := printf " %s-%s.%s"  .Chart.Name .Release.Name .Values.global.ingress.host -}}
+{{- $host := printf " %s-%s-%s.%s" .Values.global.ClientStateName .Values.global.Environment .Chart.Name .Values.global.ingress.host -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 {{ template "common.metadata" . }}

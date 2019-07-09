@@ -18,5 +18,7 @@ tolerations: []
 affinity: {}
 
 global:
-  ClientStateName: "work"
-  Environment: "please"
+  ClientStateName: "state"
+  Environment: "envrionment"
+  ingress:
+    host: k8-ius.com
