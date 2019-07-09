@@ -28,7 +28,7 @@ ingress:
   enabletls: true
 
 global:
-  clientStateName : Consortium
+  ClientStateName : Consortium
   Environment : Development
   replicaCount: 1
   ingress:

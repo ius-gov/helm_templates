@@ -5,6 +5,7 @@
 {{- $overrides := dict "Values" $noCommon -}} 
 {{- $noValues := omit . "Values" -}} 
 {{- with merge $noValues $overrides $common -}}
+{{- $host := printf " %s.%s.%s"  .Chart.Name .Release.Name .Values.global.ingress.host -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 {{ template "common.metadata" . }}
@@ -16,11 +17,11 @@ spec:
 {{- if .Values.ingress.enabletls }}
   tls:
   - hosts:
-    - {{- printf " %s.%s"  .Chart.Name  .Values.global.ingress.host }}
+    - {{- $host }}
     secretName: {{ .Values.global.ingress.tlssecret}}
 {{- end }}
   rules:
-  - host: {{- printf " %s.%s.%s"  .Chart.Name .Release.Name .Values.global.ingress.host }}
+  - host: {{- $host }}
     http:
       paths:
         - path: /
