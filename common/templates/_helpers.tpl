@@ -40,7 +40,7 @@ Create a url from root scope
 {{- end -}}
 
 {{/*
-Create a url from root scope
+Create a url from dictionary 
 */}}
 {{- define "common.url.dict" -}}
 {{- printf "%s-%s-%s.%s" .state .environment .serviceName .globalhost | lower -}}
@@ -54,7 +54,7 @@ Create an http url
 {{- end -}}
 
 {{/*
-Create an http url 
+Create an https url 
 */}}
 {{- define "common.url.https" -}}
 {{- printf "https://-%s" . -}}
