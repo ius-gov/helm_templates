@@ -50,14 +50,14 @@ Create a url from dictionary
 Create an http url 
 */}}
 {{- define "common.url.http" -}}
-{{- printf "http://-%s" . -}}
+{{- printf "http://%s" . -}}
 {{- end -}}
 
 {{/*
 Create an https url 
 */}}
 {{- define "common.url.https" -}}
-{{- printf "https://-%s" . -}}
+{{- printf "https://%s" . -}}
 {{- end -}}
 
 {{/*
