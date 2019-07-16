@@ -1,11 +1,9 @@
 {{- define "common.ingress" -}}
-{{- $fullName := include "common.fullname" . -}}
 {{- $common := dict "Values" .Values.common -}} 
 {{- $noCommon := omit .Values "common" -}} 
 {{- $overrides := dict "Values" $noCommon -}} 
 {{- $noValues := omit . "Values" -}} 
 {{- with merge $noValues $overrides $common -}}
-{{- $host := (printf " %s-%s-%s.%s" .Values.global.ClientStateName .Values.global.Environment .Chart.Name .Values.global.ingress.host) | lower -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 {{ template "common.metadata" . }}
@@ -17,16 +15,16 @@ spec:
 {{- if .Values.ingress.enabletls }}
   tls:
   - hosts:
-    - {{- $host }}
+    - {{ include "common.url" . }}
     secretName: {{ .Values.global.ingress.tlssecret}}
 {{- end }}
   rules:
-  - host: {{- $host }}
+  - host: {{ include "common.url" . }}
     http:
       paths:
         - path: /
           backend:
-            serviceName: {{ printf "%s-%s" .Release.Name .Chart.Name }}
+            serviceName: {{ include "common.fullname" . }}
             servicePort: 80
 {{- end }}
 {{- end }}
