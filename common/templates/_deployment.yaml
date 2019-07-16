@@ -5,7 +5,7 @@
 {{- $overrides := dict "Values" $noCommon -}} 
 {{- $noValues := omit . "Values" -}} 
 {{- with merge $noValues $overrides $common -}}
-{{- $appsettingsName := (printf "appsettings-%s-%s-%s-cm" .Release.Name .Values.global.ClientStateName .Values.global.Environment) | lower -}}
+{{- $appsettingsName := (printf "appsettings-%s-%s-%s-cm" .Release.Namespace .Values.global.ClientStateName .Values.global.Environment) | lower -}}
 # end voodoo
 apiVersion: apps/v1
 kind: Deployment
@@ -62,13 +62,17 @@ spec:
             value: {{ .Values.global.ClientStateName | quote }}
           - name: ASPNETCORE_ENVIRONMENT
             value: {{ .Values.global.Environment | quote }}
-          - name: APPSETTING_LOCATION
+          - name: APPSETTINGS_LOCATION
             value: "/app/appsettings"
           {{- if .Values.LoggingKey }}
           - name: Serilog__WriteTo__0__Args__apiKey
             value: {{ .Values.LoggingKey | quote }}{{ end }}
           - name: DoNotRequireHttps
             value: "true"
+          {{- range $key, $val := .Values.additional_env_vars }}
+          - name: {{ $key }}
+            value: {{ $val | quote }}
+          {{- end}}
       volumes:
         - name: appsettings
           configMap:
