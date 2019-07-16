@@ -18,7 +18,12 @@ tolerations: []
 affinity: {}
 
 global:
-  ClientStateName: "state"
-  Environment: "envrionment"
+  ClientStateName: "State"
+  Environment: "Envrionment"
   ingress:
     host: k8-ius.com
+
+additional_env_vars: 
+  betterStateName: cmon-just-work
+  Debug_level: "super duper uper vuper verbos"
+  APPSETTINGS_LOCATION: "hmmmm what happens now"

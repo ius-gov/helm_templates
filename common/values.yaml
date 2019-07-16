@@ -39,4 +39,4 @@ global:
       nginx.ingress.kubernetes.io/proxy-buffering: "on"
       kubernetes.io/ingress.class: nginx
 
-  
+  additional_env_vars: []
