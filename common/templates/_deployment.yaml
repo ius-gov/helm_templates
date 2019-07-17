@@ -62,6 +62,8 @@ spec:
           - name: ASPNETCORE_ENVIRONMENT
             value: {{ .Values.global.Environment | quote }}
           - name: APPSETTINGS_LOCATION
+            value: "/app/appsettings" 
+          - name: APPSETTING_LOCATION
             value: "/app/appsettings"
           {{- if .Values.LoggingKey }}
           - name: Serilog__WriteTo__0__Args__apiKey
