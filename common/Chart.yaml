@@ -3,5 +3,11 @@ appVersion: '1.0'
 description: Common Chart
 name: common
 version: 0.0.0-INTERNAL
+source:
+  - SOURCE_URL
 keywords:
-  - SOURCE_URL:SOURCE_SHA
+  - SHA:SOURCE_SHA
+  - RepositryID:REPOSITORY_ID
+  - RepositoryName:REPOSITORY_NAME
+  - TeamProjectID:TEAM_PROJECT_ID
+  - TeamProjectName:TEAM_PROJECT_NAME
