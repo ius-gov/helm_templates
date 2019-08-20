@@ -9,7 +9,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 
-resources: {}
+
 
 nodeSelector: {}
 
@@ -17,12 +17,30 @@ tolerations: []
 
 affinity: {}
 
+# resources: 
+#     limits:
+#       cpu: overrideGlobal 
+#       memory: 66
+#     requests:
+#       cpu: 324
+#       memory: 123
+
 global:
+  resources: 
+    limits:
+      cpu: 100m 
+      memory: 128Mi
+    requests:
+      cpu: 25m
+      memory: 16m
   ClientStateName: "State"
   Environment: "Envrionment"
   ingress:
     host: k8-ius.com
-
+additionalVolumes:
+- name: aspose
+  mountPath: /lib/sure
+  configMapName: "my-special-config-map-{{.Release.Name}}"
 additional_env_vars: 
   betterStateName: cmon-just-work
   Debug_level: "super duper uper vuper verbos"

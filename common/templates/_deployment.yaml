@@ -21,6 +21,9 @@ spec:
         app.kubernetes.io/name: {{ include "common.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+    {{- if (coalesce .Values.priorityClassName .Values.global.priorityClassName) }}
+      priorityClassName: {{ (coalesce .Values.priorityClassName .Values.global.priorityClassName) }}
+    {{- end }}
       imagePullSecrets:
         - name: {{ .Values.ImagePullSecret }}
       containers:
@@ -34,6 +37,10 @@ spec:
           volumeMounts:
             - name: appsettings
               mountPath: /app/appsettings
+          {{- range $volume := .Values.additionalVolumes }}
+            - name: {{ $volume.name }}
+              mountPath: {{ $volume.mountPath }}
+           {{- end }}
           livenessProbe:
             httpGet:
               path: /health
@@ -53,7 +60,7 @@ spec:
             failureThreshold: 5
             successThreshold: 1
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml (default .Values.global.resources  .Values.resources  )   | nindent 12 }}
           env:
           - name: ReleaseTime
             value: {{ .Release.Time.Seconds | quote }}
@@ -78,6 +85,11 @@ spec:
         - name: appsettings
           configMap:
             name: {{ include "common.appsettings.name" . }}
+      {{- range $volume := .Values.additionalVolumes }}
+        - name: {{ $volume.name }}
+          configmap:
+            name: {{ tpl $volume.configMapName $ }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -91,6 +103,5 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-
 {{- end -}}
 {{- end -}}
