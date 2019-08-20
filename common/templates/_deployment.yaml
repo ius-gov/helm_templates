@@ -37,9 +37,9 @@ spec:
           volumeMounts:
             - name: appsettings
               mountPath: /app/appsettings
-           {{- range $volume := .Values.additionalVolumes }}
-            - name: {{$volume.name}}
-              mountPath: {{$volume.mountPath}}
+          {{- range $volume := .Values.additionalVolumes }}
+            - name: {{ $volume.name }}
+              mountPath: {{ $volume.mountPath }}
            {{- end }}
           livenessProbe:
             httpGet:
@@ -60,7 +60,7 @@ spec:
             failureThreshold: 5
             successThreshold: 1
           resources:
-            {{- toYaml (coalesce .Values.resources .Values.global.resources) | nindent 12 }}
+            {{- toYaml (default .Values.global.resources  .Values.resources  )   | nindent 12 }}
           env:
           - name: ReleaseTime
             value: {{ .Release.Time.Seconds | quote }}
@@ -73,21 +73,23 @@ spec:
           - name: APPSETTING_LOCATION
             value: "/app/appsettings"
           {{- if .Values.LoggingKey }}
+          - name: Serilog__WriteTo__0__Args__apiKey
+            value: {{ .Values.LoggingKey | quote }}{{ end }}
           - name: DoNotRequireHttps
             value: "true"
           {{- range $key, $val := .Values.additional_env_vars }}
           - name: {{ $key }}
             value: {{ $val | quote }}
-          {{- end }}
+          {{- end}}
       volumes:
         - name: appsettings
           configMap:
             name: {{ include "common.appsettings.name" . }}
-        {{- range $volume := .Values.additionalVolumes }}
-        - name: {{$volume.name}}
+      {{- range $volume := .Values.additionalVolumes }}
+        - name: {{ $volume.name }}
           configmap:
-            name: {{ $volume.configMapName | tpl $ }}
-        {{- end }}
+            name: {{ tpl $volume.configMapName $ }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -101,7 +103,5 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-
-{{- end -}}
 {{- end -}}
 {{- end -}}

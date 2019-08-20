@@ -9,13 +9,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 
-resources: 
-  limits:
-    cpu: 100m 
-    memory: 128Mi
-  requests:
-    cpu: 25m
-    memory: 16m
+
 
 nodeSelector: {}
 
@@ -23,7 +17,22 @@ tolerations: []
 
 affinity: {}
 
+# resources: 
+#     limits:
+#       cpu: overrideGlobal 
+#       memory: 66
+#     requests:
+#       cpu: 324
+#       memory: 123
+
 global:
+  resources: 
+    limits:
+      cpu: 100m 
+      memory: 128Mi
+    requests:
+      cpu: 25m
+      memory: 16m
   ClientStateName: "State"
   Environment: "Envrionment"
   ingress:
