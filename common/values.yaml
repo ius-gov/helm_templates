@@ -10,7 +10,7 @@ image:
 ImagePullSecret: iusdev
 LoggingKey: ""
 
-AppSettingsLocation: 
+AppSettingsLocation: ""
 
 nameOverride: ""
 fullnameOverride: ""
@@ -29,6 +29,7 @@ ingress:
   enabletls: true
 
 global:
+  minReadySeconds: 5
   ClientStateName : Consortium
   Environment : Development
   replicaCount: 1

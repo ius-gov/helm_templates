@@ -5,12 +5,18 @@
 {{- $overrides := dict "Values" $noCommon -}} 
 {{- $noValues := omit . "Values" -}} 
 {{- with merge $noValues $overrides $common -}}
+{{- $replicaCount := .Values.replicaCount | default .Values.global.replicaCount -}}
 # end voodoo
 apiVersion: apps/v1
 kind: Deployment
 {{ template "common.metadata" . }} 
 spec:
-  replicas: {{ .Values.replicaCount | default .Values.global.replicaCount }}
+  minReadySeconds: {{ .Values.minReadySeconds | default .Values.global.minReadySeconds }}
+  replicas: {{ $replicaCount }}
+  strategy:
+    type: RollingUpdate
+    maxUnavailable: 0
+    maxSurge: {{ mul $replicaCount  2 }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "common.name" . }}
@@ -42,6 +48,9 @@ spec:
               mountPath: {{ $volume.mountPath }}
            {{- end }}
           livenessProbe:
+            exec:
+              comment: "TODO replace this with a call to the endpoint that returns 200 for healthy or 5?? for Unhealthy when it's everywhere"
+              command: "/bin/bash checkHealth(){ if [[  `curl -s http://localhost/health --insecure  | awk '{gsub(\",\\\"checks\\\":\\\\[.*\\\\]\", \"\");print}' |  grep -zoP '\"status_code\":\s*\K[^\s,]*(?=\s*,)'` == 0* ]] ; then return 0 ; else return  1; fi } && checkHealth"
             httpGet:
               path: /health
               port: http
