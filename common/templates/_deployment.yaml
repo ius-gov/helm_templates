@@ -5,12 +5,18 @@
 {{- $overrides := dict "Values" $noCommon -}} 
 {{- $noValues := omit . "Values" -}} 
 {{- with merge $noValues $overrides $common -}}
+{{- $replicaCount := .Values.replicaCount | default .Values.global.replicaCount -}}
 # end voodoo
 apiVersion: apps/v1
 kind: Deployment
 {{ template "common.metadata" . }} 
 spec:
-  replicas: {{ .Values.replicaCount | default .Values.global.replicaCount }}
+  minReadySeconds: {{ .Values.minReadySeconds | default .Values.global.minReadySeconds }}
+  replicas: {{ $replicaCount }}
+  strategy:
+    type: RollingUpdate
+    maxUnavailable: 0
+    maxSurge: {{ mul $replicaCount  2 }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "common.name" . }}
@@ -42,10 +48,14 @@ spec:
               mountPath: {{ $volume.mountPath }}
            {{- end }}
           livenessProbe:
+          {{- if .Values.global.LivenessProbe }}
+            {{- toYaml .Values.global.LivenessProbe | nindent 12 }}
+          {{- else }}
             httpGet:
               path: /health
               port: http
-            initialDelaySeconds: 120
+          {{- end }}
+            initialDelaySeconds: 5
             timeoutSeconds: 60
             periodSeconds: 90
             failureThreshold: 6
