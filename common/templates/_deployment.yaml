@@ -61,9 +61,13 @@ spec:
             failureThreshold: 6
             successThreshold: 1
           readinessProbe:
+          {{- if .Values.global.ReadinessProbe }}
+            {{- toYaml .Values.global.ReadinessProbe | nindent 12 }}
+          {{- else }}
             httpGet:
               path: /health
               port: http
+          {{- end }}
             initialDelaySeconds: 5
             timeoutSeconds: 60
             periodSeconds: 30
