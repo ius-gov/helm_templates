@@ -76,8 +76,6 @@ spec:
           resources:
             {{- toYaml (default .Values.global.resources  .Values.resources  )   | nindent 12 }}
           env:
-          - name: ReleaseTime
-            value: {{ .Release.Time.Seconds | quote }}
           - name: ClientStateName
             value: {{ .Values.global.ClientStateName | quote }}
           - name: ASPNETCORE_ENVIRONMENT
