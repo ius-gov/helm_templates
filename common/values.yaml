@@ -40,11 +40,4 @@ global:
       nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
       nginx.ingress.kubernetes.io/proxy-buffering: "on"
       kubernetes.io/ingress.class: nginx
-# TODO replace this with a call to the new endpoint that returns 400 on unhealthy
-  ReadinessProbe:
-    exec:
-      command:
-      - /bin/bash
-      - -c
-      - checkHealth () { echo "******begin health check******"; res=`curl -s http://localhost/health --insecure`; echo $res; if [[  `curl -s http://localhost/health --insecure  | awk '{gsub(",\"checks\":\\\[.*\\\]", "");print}' |  grep -zoP '"status_code":\s*\K[^\s,]*(?=\s*,)'` == 0* ]] ; then return 0 ; else return  1; fi } && checkHealth
   additional_env_vars: []
