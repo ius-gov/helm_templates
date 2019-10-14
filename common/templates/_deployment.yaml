@@ -15,8 +15,9 @@ spec:
   replicas: {{ $replicaCount }}
   strategy:
     type: RollingUpdate
-    maxUnavailable: 0
-    maxSurge: {{ mul $replicaCount  2 }}
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: {{ mul $replicaCount  2 }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "common.name" . }}
