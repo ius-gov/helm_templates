@@ -33,6 +33,7 @@ global:
   ClientStateName : Consortium
   Environment : Development
   replicaCount: 1
+  DoNotRequireHttps: true
   ingress:
     tlssecret: tls-secret
     host: "***global.ingress.host needs a value***"

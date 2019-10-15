@@ -89,7 +89,7 @@ spec:
           - name: Serilog__WriteTo__0__Args__apiKey
             value: {{ .Values.LoggingKey | quote }}{{ end }}
           - name: DoNotRequireHttps
-            value: "true"
+            value: {{ .Values.global.DoNotRequireHttps | quote }}
           {{- range $key, $val := .Values.additional_env_vars }}
           - name: {{ $key }}
             value: {{ $val | quote }}
