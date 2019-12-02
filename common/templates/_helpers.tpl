@@ -67,7 +67,7 @@ appsettings-cm name
 {{- $appSettingLocation := "" }}
 {{- if hasKey .Values.HelmNames.ExternalWeb .Chart.Name }}
 {{- $appSettingLocation = "external-web-" }}
-{{- if hasKey .Values.HelmNames.Gateway .Chart.Name }}
+{{- else if hasKey .Values.HelmNames.Gateway .Chart.Name }}
 {{- $appSettingLocation = "gateway-" }}
 {{- else if hasKey .Values.HelmNames.ExternalService .Chart.Name }}
 {{- $appSettingLocation = "external-service-" }}
@@ -75,9 +75,9 @@ appsettings-cm name
 {{- $appSettingLocation = "internal-service-" }}
 {{- else if hasKey .Values.HelmNames.InternalWeb .Chart.Name }}
 {{- $appSettingLocation = "internal-web-" }}
-{{- if hasKey .Values.HelmNames.InternalReport .Chart.Name }}
+{{- else if hasKey .Values.HelmNames.InternalReport .Chart.Name }}
 {{- $appSettingLocation = "internal-report-" }}
-{{- if hasKey .Values.HelmNames.InternalProcessor .Chart.Name }}
+{{- else if hasKey .Values.HelmNames.InternalProcessor .Chart.Name }}
 {{- $appSettingLocation = "internal-processor-" }}
 {{- end }}
 {{- printf "%sappsettings-%s-%s-%s-cm" $appSettingLocation .Release.Namespace .Values.global.ClientStateName .Values.global.Environment | lower -}}
