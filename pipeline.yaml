@@ -10,6 +10,8 @@ resources:
       name: ius-gov/pipeline-templates
       endpoint: ius-dev
 
+variables:
+  majorVersion: 1
 
 jobs:
   - template: helm/standalone-helm-chart-pipeline.yaml@templates
@@ -18,3 +20,4 @@ jobs:
       helmChartLocation: '.'
       helmChartName: 'common'
       stateCode: 0
+      majorVersion:  $(majorVersion)
