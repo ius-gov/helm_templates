@@ -97,11 +97,7 @@ spec:
       volumes:
         - name: appsettings
           configMap:
-            {{- if .Values.AppSettings }}
-            name : {{- .Values.AppSettings.Name }}
-            {{- else }}
             name: {{ include "common.appsettings.name" . }}
-            {{- end }}
       {{- range $volume := .Values.additionalVolumes }}
         - name: {{ $volume.name }}
           configmap:
