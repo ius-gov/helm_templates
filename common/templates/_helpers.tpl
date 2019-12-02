@@ -64,7 +64,17 @@ Create an https url
 appsettings-cm name
 */}}
 {{- define "common.appsettings.name" -}}
-{{- printf "appsettings-%s-%s-%s-cm" .Release.Namespace .Values.global.ClientStateName .Values.global.Environment | lower -}}
+{{- $appSettingLocation := "" }}
+{{- if hasKey .Values.HelmNames.ExternalWeb .Chart.Name }}
+{{- $appSettingLocation = "external-web-" }}
+{{- else if hasKey .Values.HelmNames.ExternalService .Chart.Name }}
+{{- $appSettingLocation = "external-service-" }}
+{{- else if hasKey .Values.HelmNames.InternalService .Chart.Name }}
+{{- $appSettingLocation = "internal-service-" }}
+{{- else if hasKey .Values.HelmNames.InternalWeb .Chart.Name }}
+{{- $appSettingLocation = "internal-web-" }}
+{{- end }}
+{{- printf "%sappsettings-%s-%s-%s-cm" $appSettingLocation .Release.Namespace .Values.global.ClientStateName .Values.global.Environment | lower -}}
 {{- end -}}
 
 

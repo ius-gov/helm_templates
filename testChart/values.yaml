@@ -46,3 +46,6 @@ additional_env_vars:
   betterStateName: cmon-just-work
   Debug_level: "super duper uper vuper verbos"
   APPSETTINGS_LOCATION: "hmmmm what happens now"
+HelmNames:
+  ExternalWeb:
+    testChart: testChart
