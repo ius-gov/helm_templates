@@ -65,19 +65,19 @@ appsettings-cm name
 */}}
 {{- define "common.appsettings.name" -}}
 {{- $appSettingLocation := "" }}
-{{- if hasKey .Values.global.HelmNames.ExternalWeb .Chart.Name }}
+{{- if has .Chart.Name (values .Values.global.HelmNames.ExternalWeb ) }}
 {{- $appSettingLocation = "external-web-" }}
-{{- else if hasKey .Values.global.HelmNames.Gateway .Chart.Name }}
+{{- else if has .Chart.Name (values .Values.global.HelmNames.Gateway ) }}
 {{- $appSettingLocation = "gateway-" }}
-{{- else if hasKey .Values.global.HelmNames.ExternalService .Chart.Name }}
+{{- else if has .Chart.Name (values .Values.global.HelmNames.ExternalService ) }}
 {{- $appSettingLocation = "external-service-" }}
-{{- else if hasKey .Values.global.HelmNames.InternalService .Chart.Name }}
+{{- else if has .Chart.Name (values .Values.global.HelmNames.InternalService ) }}
 {{- $appSettingLocation = "internal-service-" }}
-{{- else if hasKey .Values.global.HelmNames.InternalWeb .Chart.Name }}
+{{- else if has .Chart.Name (values .Values.global.HelmNames.InternalWeb ) }}
 {{- $appSettingLocation = "internal-web-" }}
-{{- else if hasKey .Values.global.HelmNames.InternalReport .Chart.Name }}
+{{- else if has .Chart.Name (values .Values.global.HelmNames.InternalReport ) }}
 {{- $appSettingLocation = "internal-report-" }}
-{{- else if hasKey .Values.global.HelmNames.InternalProcessor .Chart.Name }}
+{{- else if has .Chart.Name (values .Values.global.HelmNames.InternalProcessor ) }}
 {{- $appSettingLocation = "internal-processor-" }}
 {{- end }}
 {{- printf "%sappsettings-%s-%s-%s-cm" $appSettingLocation .Release.Namespace .Values.global.ClientStateName .Values.global.Environment | lower -}}

@@ -38,6 +38,9 @@ global:
   Environment: "Envrionment"
   ingress:
     host: k8-ius.com
+  HelmNames:
+    InternalService:
+      TestChartService: testchart-service
 additionalVolumes:
 - name: aspose
   mountPath: /lib/sure
@@ -46,6 +49,3 @@ additional_env_vars:
   betterStateName: cmon-just-work
   Debug_level: "super duper uper vuper verbos"
   APPSETTINGS_LOCATION: "hmmmm what happens now"
-HelmNames:
-  ExternalWeb:
-    testChart: testChart
