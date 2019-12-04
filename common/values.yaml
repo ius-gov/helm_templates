@@ -42,6 +42,8 @@ global:
       kubernetes.io/ingress.class: nginx  
   additional_env_vars: []
   HelmNames: # used to generate urls and identity clients and manifest
+    IdentityServer: {}
+    Omniscience: {}
     InternalWeb: {}
     InternalService: {}
     InternalProcessor: {}

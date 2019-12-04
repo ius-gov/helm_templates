@@ -79,13 +79,8 @@ appsettings-cm name
 {{- $appSettingLocation = "internal-report-" }}
 {{- else if has .Chart.Name (values .Values.global.HelmNames.InternalProcessor ) }}
 {{- $appSettingLocation = "internal-processor-" }}
-{{- end }}
 {{- else if has .Chart.Name (values .Values.global.HelmNames.Omniscience ) }}
 {{- $appSettingLocation = "omniscience-" }}
-{{- end }}
-{{/*
-    The IdentityServers are special and can see all the apps
-*/}}
 {{- else if has .Chart.Name (values .Values.global.HelmNames.IdentityServer ) }}
 {{- $appSettingLocation = "omniscience-" }}
 {{- end }}
