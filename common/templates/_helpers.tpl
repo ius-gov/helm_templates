@@ -80,6 +80,15 @@ appsettings-cm name
 {{- else if has .Chart.Name (values .Values.global.HelmNames.InternalProcessor ) }}
 {{- $appSettingLocation = "internal-processor-" }}
 {{- end }}
+{{- else if has .Chart.Name (values .Values.global.HelmNames.Omniscience ) }}
+{{- $appSettingLocation = "omniscience-" }}
+{{- end }}
+{{/*
+    The IdentityServers are special and can see all the apps
+*/}}
+{{- else if has .Chart.Name (values .Values.global.HelmNames.IdentityServer ) }}
+{{- $appSettingLocation = "omniscience-" }}
+{{- end }}
 {{- printf "%sappsettings-%s-%s-%s-cm" $appSettingLocation .Release.Namespace .Values.global.ClientStateName .Values.global.Environment | lower -}}
 {{- end -}}
 
