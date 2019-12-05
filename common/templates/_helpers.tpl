@@ -82,7 +82,7 @@ appsettings-cm name
 {{- else if has .Chart.Name (values .Values.global.HelmNames.Omniscience ) }}
 {{- $appSettingLocation = "omniscience-" }}
 {{- else if has .Chart.Name (values .Values.global.HelmNames.IdentityServer ) }}
-{{- $appSettingLocation = "omniscience-" }}
+{{- $appSettingLocation = "identityserver-" }}
 {{- end }}
 {{- printf "%sappsettings-%s-%s-%s-cm" $appSettingLocation .Release.Namespace .Values.global.ClientStateName .Values.global.Environment | lower -}}
 {{- end -}}
