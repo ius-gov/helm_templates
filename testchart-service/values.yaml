@@ -17,15 +17,8 @@ tolerations: []
 
 affinity: {}
 
-# resources: 
-#     limits:
-#       cpu: overrideGlobal 
-#       memory: 66
-#     requests:
-#       cpu: 324
-#       memory: 123
-
 global:
+  DisableDataProtectionSecret: true
   replicaCount: 3
   resources: 
     limits:
@@ -39,7 +32,7 @@ global:
   ingress:
     host: k8-ius.com
   HelmNames:
-    InternalService:
+    InternalWeb:
       TestChartService: testchart-service
 additionalVolumes:
 - name: aspose
