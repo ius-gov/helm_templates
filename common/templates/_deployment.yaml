@@ -44,6 +44,7 @@ spec:
           volumeMounts:
             - name: appsettings
               mountPath: /app/appsettings
+            {{- include "dpapi_volume_mount" . | indent 12 }}
           {{- range $volume := .Values.additionalVolumes }}
             - name: {{ $volume.name }}
               mountPath: {{ $volume.mountPath }}
@@ -85,6 +86,7 @@ spec:
             value: "/app/appsettings" 
           - name: APPSETTING_LOCATION
             value: "/app/appsettings"
+          {{- include "dpapi_key_location" . | indent 10 }}
           {{- if .Values.LoggingKey }}
           - name: Serilog__WriteTo__0__Args__apiKey
             value: {{ .Values.LoggingKey | quote }}{{ end }}
@@ -98,6 +100,7 @@ spec:
         - name: appsettings
           configMap:
             name: {{ include "common.appsettings.name" . }}
+        {{- include "dpapi_secret_volume" .  | indent 8 }}
       {{- range $volume := .Values.additionalVolumes }}
         - name: {{ $volume.name }}
           configmap:

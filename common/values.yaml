@@ -29,6 +29,7 @@ ingress:
   enabletls: true
 
 global:
+  DisableDataProtectionSecret: true
   minReadySeconds: 5
   ClientStateName : Consortium
   Environment : Development

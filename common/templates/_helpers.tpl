@@ -88,3 +88,32 @@ appsettings-cm name
 {{- end -}}
 
 
+{{- define "dpapi_key_location" -}}
+{{- if .Values.global.DisableDataProtectionSecret }}
+{{- else if has .Chart.Name (values (merge .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb ) ) }}
+- name: DataProtectionKeyPath
+  value: "/app/dpapi"
+{{- end -}}
+{{- end -}}
+
+{{- define "dpapi_secret_volume" -}}
+{{- $identifier := (printf "web-dpapi-%s-%s-%s" .Release.Namespace .Values.global.ClientStateName .Values.global.Environment) | lower -}}
+{{- if .Values.global.DisableDataProtectionSecret }}
+{{- else if has .Chart.Name (values .Values.global.HelmNames.InternalWeb ) }}
+- name: dpapi-secret
+  secret:
+    secretName: {{ printf "internal-%s-secret" $identifier }}
+{{- else if has .Chart.Name (values .Values.global.HelmNames.ExternalWeb ) }}
+- name: dpapi-secret
+  secret:
+    secretName: {{ printf "external-%s-secret" $identifier }}
+{{- end -}}
+{{- end -}}
+
+{{- define "dpapi_volume_mount" }}
+{{- if .Values.global.DisableDataProtectionSecret }}
+{{- else if has .Chart.Name (values (merge .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb ) ) }}
+- name: dpapi-secret
+  mountPath: /app/dpapi
+{{- end -}}
+{{- end -}}
