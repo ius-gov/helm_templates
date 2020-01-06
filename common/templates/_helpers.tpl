@@ -79,7 +79,7 @@ appsettings-cm name
 {{- $appSettingLocation = "internal-report-" }}
 {{- else if has .Chart.Name (values .Values.global.HelmNames.InternalProcessor ) }}
 {{- $appSettingLocation = "internal-processor-" }}
-{{- else if has .Chart.Name (values .Values.global.HelmNames.Omniscience ) }}
+{{- else if has .Chart.Name (values (merge (dict) .Values.global.HelmNames.Omniscience .Values.global.HelmNames.TestingService .Values.global.HelmNames.TestingWeb )) }}
 {{- $appSettingLocation = "omniscience-" }}
 {{- else if has .Chart.Name (values .Values.global.HelmNames.IdentityServer ) }}
 {{- $appSettingLocation = "identityserver-" }}
@@ -90,7 +90,7 @@ appsettings-cm name
 
 {{- define "dpapi_key_location" -}}
 {{- if .Values.global.DisableDataProtectionSecret }}
-{{- else if has .Chart.Name (values (merge .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb ) ) }}
+{{- else if has .Chart.Name (values (merge (dict) .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb ) ) }}
 - name: DataProtectionKeyPath
   value: "/app/dpapi"
 {{- end -}}
@@ -112,7 +112,7 @@ appsettings-cm name
 
 {{- define "dpapi_volume_mount" }}
 {{- if .Values.global.DisableDataProtectionSecret }}
-{{- else if has .Chart.Name (values (merge .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb ) ) }}
+{{- else if has .Chart.Name (values (merge (dict ) .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb ) ) }}
 - name: dpapi-secret
   mountPath: /app/dpapi
 {{- end -}}
