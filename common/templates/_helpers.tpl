@@ -79,7 +79,7 @@ appsettings-cm name
 {{- $appSettingLocation = "internal-report-" }}
 {{- else if has .Chart.Name (values .Values.global.HelmNames.InternalProcessor ) }}
 {{- $appSettingLocation = "internal-processor-" }}
-{{- else if has .Chart.Name (values (merge (dict) .Values.global.HelmNames.Omniscience .Values.global.HelmNames.TestingService .Values.global.HelmNames.TestingWeb ) }}
+{{- else if has .Chart.Name (values (merge (dict) .Values.global.HelmNames.Omniscience .Values.global.HelmNames.TestingService .Values.global.HelmNames.TestingWeb )) }}
 {{- $appSettingLocation = "omniscience-" }}
 {{- else if has .Chart.Name (values .Values.global.HelmNames.IdentityServer ) }}
 {{- $appSettingLocation = "identityserver-" }}
