@@ -1,5 +1,4 @@
-{{- define "common.deployment" -}} #declare this as a template
-# this voodoo merges the various value files
+{{- define "common.deployment" -}}
 {{- $common := dict "Values" .Values.common -}}  
 {{- $noCommon := omit .Values "common" -}} 
 {{- $overrides := dict "Values" $noCommon -}} 
