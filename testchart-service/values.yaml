@@ -1,3 +1,4 @@
+---
 replicaCount: 2
 
 image:
@@ -9,8 +10,6 @@ nameOverride: ""
 fullnameOverride: ""
 
 
-
-
 nodeSelector: {}
 
 tolerations: []
@@ -20,9 +19,9 @@ affinity: {}
 global:
   DisableDataProtectionSecret: true
   replicaCount: 3
-  resources: 
+  resources:
     limits:
-      cpu: 100m 
+      cpu: 100m
       memory: 128Mi
     requests:
       cpu: 25m
@@ -35,10 +34,10 @@ global:
     InternalWeb:
       TestChartService: testchart-service
 additionalVolumes:
-- name: aspose
-  mountPath: /lib/sure
-  configMapName: "my-special-config-map-{{.Release.Name}}"
-additional_env_vars: 
+  - name: aspose
+    mountPath: /lib/sure
+    configMapName: "my-special-config-map-{{.Release.Name}}"
+additional_env_vars:
   betterStateName: cmon-just-work
   Debug_level: "super duper uper vuper verbos"
   APPSETTINGS_LOCATION: "hmmmm what happens now"

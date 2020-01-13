@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 appVersion: "1.0"
 description: A simple chart to test the common template chart just run helm dep up testChart and it should work and helm template to do a dry run of the templating to make sure thing look right
