@@ -112,7 +112,7 @@ appsettings-cm name
 
 {{- define "dpapi_volume_mount" }}
 {{- if .Values.global.DisableDataProtectionSecret }}
-{{- else if has .Chart.Name (values (merge (dict ) .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb .Values.global.HelmNames.TestingWeb ) ) }}
+{{- else if has .Chart.Name (values (merge (dict ) .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb .Values.global.HelmNames.IdentityServer .Values.global.HelmNames.InternalReport .Values.global.HelmNames.TestingWeb ) ) }}
 - name: dpapi-secret
   mountPath: /app/dpapi
 {{- end -}}
