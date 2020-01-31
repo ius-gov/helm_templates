@@ -53,7 +53,7 @@ spec:
             {{- toYaml .Values.global.LivenessProbe | nindent 12 }}
           {{- else }}
             httpGet:
-              path: /health
+              path: /health/statuscode
               port: http
           {{- end }}
             initialDelaySeconds: 5
