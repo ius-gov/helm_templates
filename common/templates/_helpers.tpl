@@ -99,7 +99,11 @@ appsettings-cm name
 {{- define "dpapi_secret_volume" -}}
 {{- $identifier := (printf "web-dpapi-%s-%s-%s" .Release.Namespace .Values.global.ClientStateName .Values.global.Environment) | lower -}}
 {{- if .Values.global.DisableDataProtectionSecret }}
-{{- else if has .Chart.Name (values (merge (dict) .Values.global.HelmNames.InternalWeb .Values.global.HelmNames.TestingWeb )) }}
+{{- else if has .Chart.Name (values .Values.global.HelmNames.IdentityServer ) }}
+- name: dpapi-secret
+  secret:
+    secretName: {{ printf "identityserver-%s-secret" $identifier }}
+{{- else if has .Chart.Name (values (merge (dict) .Values.global.HelmNames.InternalWeb .Values.global.HelmNames.TestingWeb .Values.global.HelmNames.InternalReport )) }}
 - name: dpapi-secret
   secret:
     secretName: {{ printf "internal-%s-secret" $identifier }}
@@ -112,7 +116,7 @@ appsettings-cm name
 
 {{- define "dpapi_volume_mount" }}
 {{- if .Values.global.DisableDataProtectionSecret }}
-{{- else if has .Chart.Name (values (merge (dict ) .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb .Values.global.HelmNames.TestingWeb ) ) }}
+{{- else if has .Chart.Name (values (merge (dict ) .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb .Values.global.HelmNames.IdentityServer .Values.global.HelmNames.InternalReport .Values.global.HelmNames.TestingWeb ) ) }}
 - name: dpapi-secret
   mountPath: /app/dpapi
 {{- end -}}
