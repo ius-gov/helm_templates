@@ -90,7 +90,7 @@ appsettings-cm name
 
 {{- define "dpapi_key_location" -}}
 {{- if .Values.global.DisableDataProtectionSecret }}
-{{- else if has .Chart.Name (values (merge (dict) .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb ) ) }}
+{{- else if has .Chart.Name (values (merge (dict) .Values.global.HelmNames.ExternalWeb .Values.global.HelmNames.InternalWeb .Values.global.HelmNames.TestingWeb .Values.global.HelmNames.InternalReport .Values.global.HelmNames.IdentityServer ) ) }}
 - name: DataProtectionKeyPath
   value: "/app/dpapi"
 {{- end -}}
