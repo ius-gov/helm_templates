@@ -36,6 +36,7 @@ global:
 additionalVolumes:
   - name: aspose
     mountPath: /lib/sure
+    type: "configMap"
     configMapName: "my-special-config-map-{{.Release.Name}}"
 additional_env_vars:
   betterStateName: cmon-just-work

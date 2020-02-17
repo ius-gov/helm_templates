@@ -102,7 +102,7 @@ spec:
         {{- include "dpapi_secret_volume" .  | indent 8 }}
       {{- range $volume := .Values.additionalVolumes }}
         - name: {{ $volume.name }}
-          configmap:
+          {{ $volume.type -}}:
             name: {{ tpl $volume.configMapName $ }}
       {{- end }}
       {{- with .Values.nodeSelector }}
