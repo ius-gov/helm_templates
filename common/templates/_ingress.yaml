@@ -3,6 +3,7 @@
 {{- $noCommon := omit .Values "common" -}} 
 {{- $overrides := dict "Values" $noCommon -}} 
 {{- $noValues := omit . "Values" -}} 
+{{- $ingressOverride := dict .Values "ingressoverride" -}} 
 {{- with merge $noValues $overrides $common -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -10,9 +11,12 @@ kind: Ingress
 {{- with .Values.global.ingress.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
-{{- if and (hasKey .Values "ingressoverride") (hasKey .Values.ingressoverride "common.fullname") }}
-{{- with merge ".Values.ingressoverride" "common.fullname" }}
+{{- if $ingressOverride }}
+{{- if (hasKey $ingressOverride "common.fullname") }}
+{{ merge ".Values.ingressoverride" "common.fullname" }}
+{{- with (merge ".Values.ingressoverride" "common.fullname") }}
 {{ toYaml . | indent 4 }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
