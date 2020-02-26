@@ -3,7 +3,7 @@
 {{- $noCommon := omit .Values "common" -}} 
 {{- $overrides := dict "Values" $noCommon -}} 
 {{- $noValues := omit . "Values" -}} 
-{{- $ingressOverride := dict .Values "ingressoverride" -}} 
+{{- $fullname := include "common.fullname" . -}} 
 {{- with merge $noValues $overrides $common -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -11,15 +11,12 @@ kind: Ingress
 {{- with .Values.global.ingress.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
-{{- if $ingressOverride }}
-{{- if (hasKey $ingressOverride "common.fullname") }}
-{{ merge ".Values.ingressoverride" "common.fullname" }}
-{{- with (merge ".Values.ingressoverride" "common.fullname") }}
-{{ toYaml . | indent 4 }}
 {{- end }}
+{{- if (get .Values.ingressoverride $fullname) }}
+{{ with (get .Values.ingressoverride $fullname) }}
+{{- toYaml . | indent 4 }}
 {{- end }}
-{{- end }}
-{{- end }}
+{{- end}}
 spec:
 {{- if .Values.ingress.enabletls }}
   tls:
@@ -33,7 +30,7 @@ spec:
       paths:
         - path: /
           backend:
-            serviceName: {{ include "common.fullname" . }}
+            serviceName: {{ $fullname }}
             servicePort: 80
 {{- end }}
 {{- end }}
