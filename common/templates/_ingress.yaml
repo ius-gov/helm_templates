@@ -12,11 +12,9 @@ kind: Ingress
   annotations:
 {{ toYaml . | indent 4 }}
 {{- end }}
-{{- if .Values.ingressSettings }}
-{{ with (get .Values.ingressSettings $fullname) }}
+{{ with .Values.ingressSettings }}
 {{- toYaml . | indent 4 }}
-{{- end }}
-{{- end }}
+{{ end }}
 spec:
 {{- if .Values.ingress.enabletls }}
   tls:

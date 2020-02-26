@@ -9,9 +9,8 @@ image:
 nameOverride: ""
 fullnameOverride: ""
 
-ingressoverride:
-    notificationdepository-service: 
-        nginx.ingress.kubernetes.io/client-max-body-size: 10m
+ingressSettings:
+  nginx.ingress.kubernetes.io/client-max-body-size: 10m
 
 nodeSelector: {}
 
