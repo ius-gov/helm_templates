@@ -55,6 +55,3 @@ global:
     TestingService: {}
     TestingWeb: {}
 
-ingressoverride:
-    homepage-web: 
-        nginx.ingress.kubernetes.io/client-max-body-size: 10m
