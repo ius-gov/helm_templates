@@ -30,7 +30,7 @@ global:
   ClientStateName: "State"
   Environment: "Envrionment"
   ingress:
-    host: k8-ius.com 
+    host: k8-ius.com
     tlssecret: development-id-gov-tlssecret
     annotations:
       nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"

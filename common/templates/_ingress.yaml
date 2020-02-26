@@ -12,7 +12,7 @@ kind: Ingress
   annotations:
 {{ toYaml . | indent 4 }}
 {{- end }}
-{{ with .Values.ingressSettings }}
+{{ with .Values.ingresssettings }}
 {{- toYaml . | indent 4 }}
 {{ end }}
 spec:
