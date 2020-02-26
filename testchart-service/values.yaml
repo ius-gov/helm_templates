@@ -5,7 +5,6 @@ image:
   repository: iusdev.azurecr.io/ius.employerwages.service
   tag: 0.2.9.2502
 
-
 nameOverride: ""
 fullnameOverride: ""
 
