@@ -26,6 +26,10 @@ spec:
   - host: {{ include "common.url" . }}
     http:
       paths:
+        - path: /.well-known/metrics
+          backend:
+            serviceName: doesntmatterbecauseitjustneedstobeblocked
+            servicePort: 8888
         - path: /
           backend:
             serviceName: {{ $fullname }}
