@@ -23,6 +23,10 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/path: '/.well-known/metrics'
+        prometheus.io/port: {{ .Values.service.port | quote }}
       labels:
         app.kubernetes.io/name: {{ include "common.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
