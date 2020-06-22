@@ -30,6 +30,7 @@ global:
   ClientStateName: "State"
   Environment: "Envrionment"
   ingress:
+    groupIngressEnabled: true
     host: k8-ius.com
     tlssecret: development-id-gov-tlssecret
     annotations:

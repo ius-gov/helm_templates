@@ -1,4 +1,5 @@
 {{- define "common.ingress" -}}
+{{ if not .Values.global.ingress.groupIngressEnabled }}
 {{- $common := dict "Values" .Values.common -}} 
 {{- $noCommon := omit .Values "common" -}} 
 {{- $overrides := dict "Values" $noCommon -}} 
@@ -34,5 +35,6 @@ spec:
           backend:
             serviceName: {{ $fullname }}
             servicePort: 80
+{{- end }}
 {{- end }}
 {{- end }}
