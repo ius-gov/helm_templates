@@ -5,7 +5,7 @@
 {{- $noValues := omit . "Values" -}} 
 {{- with merge $noValues $overrides $common -}}
 {{- if .Values.global.horizontalPodAutoscaling.enabled }}
-apiVersion: autoscaling/v2beta1
+apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 {{ template "common.metadata" . }}
 spec:
