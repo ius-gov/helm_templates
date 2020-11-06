@@ -34,6 +34,16 @@ spec:
     {{- if (coalesce .Values.priorityClassName .Values.global.priorityClassName) }}
       priorityClassName: {{ (coalesce .Values.priorityClassName .Values.global.priorityClassName) }}
     {{- end }}
+    {{- if has .Chart.Name (values .Values.global.HelmNames.InternalService) }}
+      initContainers:
+        - name: {{ .Chart.Name }}-dacpac
+          image: "{{ .Values.image.repository }}/dacpac:{{ .Values.image.tag }}"
+          envFrom:
+          #- configMapRef:
+          #    name: taxrate-database-cm
+          - secretRef:
+              name: sql-secrets
+      {{- end }}
       imagePullSecrets:
         - name: {{ .Values.ImagePullSecret }}
       containers:
