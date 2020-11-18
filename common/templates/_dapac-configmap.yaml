@@ -1,0 +1,12 @@
+{{- if has .Chart.Name (values .Values.global.HelmNames.InternalService) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "common.name" . }}-dacpac-cm
+data:
+  AZURE_URL: "###AZURE_URL###" 
+  FEED: "###FEED###"
+  VERSION: "###VERSION###"
+  PROJECT: "###PROJECT###" 
+  SQL_DATABASE_NAME: "###SQL_DATABASE_NAME###"
+{{- end }}
