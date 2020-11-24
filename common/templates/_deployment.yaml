@@ -5,6 +5,7 @@
 {{- $noValues := omit . "Values" -}} 
 {{- with merge $noValues $overrides $common -}}
 {{- $replicaCount := .Values.replicaCount | default .Values.global.replicaCount -}}
+{{- $chartname := .Chart.Name }}
 # end voodoo
 apiVersion: apps/v1
 kind: Deployment
@@ -47,7 +48,11 @@ spec:
           - name: PROJECT
             value: {{ (split "/" .Values.image)._1 }} 
           - name: SERVICE_NAME
-            value: {{ .Values.rename }}
+            value: {{- range $key, $value := index .Values.global.HelmNames.InternalService }}
+                {{- if eq $value $chartname }} 
+                {{- printf " %s" $key }}
+      {{- end }}
+      {{- end }}
       {{- end }}
       imagePullSecrets:
         - name: {{ .Values.ImagePullSecret }}
