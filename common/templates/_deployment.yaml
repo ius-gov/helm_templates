@@ -39,10 +39,15 @@ spec:
         - name: {{ .Chart.Name }}-dacpac
           image: "{{ .Values.image.repository }}/dacpac:{{ .Values.image.tag }}"
           envFrom:
-          #- configMapRef:
-          #    name: taxrate-database-cm
           - secretRef:
               name: sql-secrets
+          env:
+          - name: VERSION
+            value: {{ .Values.tag }}
+          - name: PROJECT
+            value: {{ (split "/" .Values.image)._1 }} 
+          - name: SERVICE_NAME
+            value: {{ .Values.rename }}
       {{- end }}
       imagePullSecrets:
         - name: {{ .Values.ImagePullSecret }}
