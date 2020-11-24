@@ -5,6 +5,7 @@
 {{- $noValues := omit . "Values" -}} 
 {{- with merge $noValues $overrides $common -}}
 {{- $replicaCount := .Values.replicaCount | default .Values.global.replicaCount -}}
+{{- $chartname := .Chart.Name }}
 # end voodoo
 apiVersion: apps/v1
 kind: Deployment
@@ -34,6 +35,29 @@ spec:
     {{- if (coalesce .Values.priorityClassName .Values.global.priorityClassName) }}
       priorityClassName: {{ (coalesce .Values.priorityClassName .Values.global.priorityClassName) }}
     {{- end }}
+    {{- if and ( has .Chart.Name (values .Values.global.HelmNames.InternalService) ) .Values.global.DacpacInitContainer.enabled }}
+      initContainers:
+        - name: {{ .Chart.Name }}-dacpac
+          image: "{{ (split "/" .Values.image.repository)._0 }}/dacpac:latest"
+          volumeMounts:
+          - name: appsettings
+            value: /appsettings.id.development.idaho.json
+            subPath: appsettings.id.development.idaho.json
+          envFrom:
+          - secretRef:
+              name: sql-secrets
+          env:
+          - name: VERSION
+            value: {{ .Values.image.tag }}
+          - name: PROJECT
+            value: {{ (split "/" .Values.image.repository)._1 }} 
+          - name: SERVICE_NAME
+            value: {{- range $key, $value := index .Values.global.HelmNames.InternalService }}
+                {{- if eq $value $chartname }} 
+                {{- printf " %s" $key }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
       imagePullSecrets:
         - name: {{ .Values.ImagePullSecret }}
       containers:
