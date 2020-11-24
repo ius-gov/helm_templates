@@ -38,15 +38,19 @@ spec:
     {{- if has .Chart.Name (values .Values.global.HelmNames.InternalService) }}
       initContainers:
         - name: {{ .Chart.Name }}-dacpac
-          image: "{{ .Values.image.repository }}/dacpac:{{ .Values.image.tag }}"
+          image: "{{ (split "/" .Values.image.repository)._0 }}/dacpac:latest"
+          volumeMounts:
+          - name: appsettings
+            value: /appsettings.id.development.idaho.json
+            subPath: appsettings.id.development.idaho.json
           envFrom:
           - secretRef:
               name: sql-secrets
           env:
           - name: VERSION
-            value: {{ .Values.tag }}
+            value: {{ .Values.image.tag }}
           - name: PROJECT
-            value: {{ (split "/" .Values.image)._1 }} 
+            value: {{ (split "/" .Values.image.repository)._1 }} 
           - name: SERVICE_NAME
             value: {{- range $key, $value := index .Values.global.HelmNames.InternalService }}
                 {{- if eq $value $chartname }} 
