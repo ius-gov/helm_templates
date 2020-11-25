@@ -41,8 +41,7 @@ spec:
           image: "{{ (split "/" .Values.image.repository)._0 }}/dacpac:latest"
           volumeMounts:
           - name: appsettings
-            value: /appsettings.id.development.idaho.json
-            subPath: appsettings.id.development.idaho.json
+            mountPath: /app/appsettings
           envFrom:
           - secretRef:
               name: sql-secrets
