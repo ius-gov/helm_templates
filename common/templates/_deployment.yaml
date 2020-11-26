@@ -35,7 +35,9 @@ spec:
     {{- if (coalesce .Values.priorityClassName .Values.global.priorityClassName) }}
       priorityClassName: {{ (coalesce .Values.priorityClassName .Values.global.priorityClassName) }}
     {{- end }}
-    {{- if and ( has .Chart.Name (values .Values.global.HelmNames.InternalService) ) .Values.global.DacpacInitContainer.enabled }}
+    {{- $globalFlagCheck := .Values.global.enableDacpacInitContainer }}
+    {{- $checkinternalservice := has .Chart.Name (values .Values.global.HelmNames.InternalService ) }}
+    {{- if and $globalFlagCheck $checkinternalservice .Values.global.enableDacpacInitContainer }}
       initContainers:
         - name: {{ .Chart.Name }}-dacpac
           image: "{{ (split "/" .Values.image.repository)._0 }}/dacpac:latest"
