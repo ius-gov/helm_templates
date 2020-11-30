@@ -37,7 +37,7 @@ spec:
     {{- end }}
     {{- $globalFlagCheck := .Values.global.enableDacpacInitContainer }}
     {{- $checkinternalservice := has .Chart.Name (values .Values.global.HelmNames.InternalService ) }}
-    {{- if and $globalFlagCheck $checkinternalservice .Values.global.enableDacpacInitContainer }}
+    {{- if and $globalFlagCheck $checkinternalservice .Values.enableDacPac }}
       initContainers:
         - name: {{ .Chart.Name }}-dacpac
           image: "{{ (split "/" .Values.image.repository)._0 }}/dacpac:latest"
