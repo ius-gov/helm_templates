@@ -40,7 +40,7 @@ spec:
     {{- if and $globalFlagCheck $checkinternalservice .Values.enableDacPac }}
       initContainers:
         - name: {{ .Chart.Name }}-dacpac
-          image: "{{ (split "/" .Values.image.repository)._0 }}/dacpac:latest"
+          image: "{{ (split "/" .Values.image.repository)._0 }}/database-updater:latest"
           resources:
             requests:
               cpu: {{ .Values.global.initContainer.requests.cpu | quote }}
