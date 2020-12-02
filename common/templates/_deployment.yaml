@@ -41,6 +41,13 @@ spec:
       initContainers:
         - name: {{ .Chart.Name }}-dacpac
           image: "{{ (split "/" .Values.image.repository)._0 }}/dacpac:latest"
+          resources:
+            requests:
+              cpu: {{ .Values.global.initContainer.requests.cpu | quote }}
+              memory: {{ .Values.global.initContainer.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.global.initContainer.limits.cpu | quote }}
+              memory: {{ .Values.global.initContainer.limits.memory | quote }}
           volumeMounts:
           - name: appsettings
             mountPath: /app/appsettings
