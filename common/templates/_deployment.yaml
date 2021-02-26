@@ -41,6 +41,10 @@ spec:
       initContainers:
         - name: {{ .Chart.Name }}-dacpac
           image: "{{ (split "/" .Values.image.repository)._0 }}/database-updater:latest"
+          command:
+          - /bin/bash
+          - -c 
+          - /applydacpac.sh
           resources:
             requests:
               cpu: {{ .Values.global.initContainer.requests.cpu | quote }}
