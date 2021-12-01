@@ -37,7 +37,8 @@ spec:
     {{- end }}
     {{- $globalFlagCheck := .Values.global.enableDacpacInitContainer }}
     {{- $checkinternalservice := has .Chart.Name (values .Values.global.HelmNames.InternalService ) }}
-    {{- if and $globalFlagCheck $checkinternalservice .Values.enableDacPac }}
+    {{- $name := (include "common.name" .) }}
+    {{- if and $globalFlagCheck $checkinternalservice .Values.enableDacPac (ne $name 'tax-service') }}
       initContainers:
         - name: {{ .Chart.Name }}-dacpac
           image: "{{ (split "/" .Values.image.repository)._0 }}/database-updater:latest"
@@ -69,6 +70,7 @@ spec:
             value: {{- range $key, $value := index .Values.global.HelmNames.InternalService }}
                 {{- if eq $value $chartname }} 
                 {{- printf " %s" $key }}
+      {{- end }}
       {{- end }}
       {{- end }}
       {{- end }}
